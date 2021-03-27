@@ -1,0 +1,46 @@
+syntax on
+set t_Co=256
+
+set autoindent
+set smartindent
+set expandtab
+set encoding=utf-8
+set fileencoding=utf-8
+set fileencodings=iso-2022-jp,euc-jp,utf-8,ucs-2,cp932,sjis
+set tabstop=2
+set shiftwidth=2
+set cursorline
+set number
+set showmode
+set showmatch
+set title
+set backspace=indent,eol,start
+set inccommand=split
+set imdisable
+set hidden
+set nobackup
+set nowritebackup
+set conceallevel=0
+set clipboard+=unnamed
+" htmlのマッチするタグに%でジャンプ
+source $VIMRUNTIME/macros/matchit.vim
+
+noremap w k
+noremap a h
+noremap s j
+noremap d l
+
+noremap q a
+noremap ee dd
+noremap <C-w><C-w> w
+noremap <C-s><C-s> b
+
+inoremap ff <Esc>
+vnoremap ff <Esc>
+
+hi Comment ctermfg=gray
+
+if has('mouse')
+  set mouse=a
+endif
+
