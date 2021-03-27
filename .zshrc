@@ -1,13 +1,6 @@
 #
 # ~/.zshrc
 #
-#
-# Yamada Hayao 
-# Twitter: @Hayao0819
-# Email  : hayao@fascode.net
-#
-# (c) 2019-2020 Fascode Network.
-#
 
 
 #-- Alias --#
@@ -119,5 +112,13 @@ alias packman=pacman
 alias pai="echo ちんぽにゃ！"
 alias cl=clear
 alias :wq=exit
+alias n=nvim
+alias bat='bat --style="numbers,grid"'
+
+[[ -z "$TMUX" && ! -z "$PS1" ]] && tmux
 
 chpwd() { ls -ltr --color=auto }
+export VOLTA_HOME="$HOME/.volta"
+export PATH="$VOLTA_HOME/bin:$PATH"
+
+eval $(thefuck --alias)
