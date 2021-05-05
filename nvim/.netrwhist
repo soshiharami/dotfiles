@@ -1,3 +1,12 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhistcnt =1
-let g:netrw_dirhist_1='/home/soshi/project/kawavo'
+let g:netrw_dirhistcnt =3
+let g:netrw_dirhist_3='/home/soshi/kawavo/client/src/components/chat'
+let g:netrw_dirhist_2='/home/soshi/kawavo/client/src/pages/chat'
+let g:netrw_dirhist_1='/home/soshi/install'
+let g:netrw_dirhist_0='/home/soshi/project/sangria-akka-http-example/src/main/scala'
+let g:netrw_dirhist_9='/home/soshi/project/sangria-akka-http-example/src/main'
+let g:netrw_dirhist_8='/home/soshi/project/sangria-akka-http-example/src/main/resources'
+let g:netrw_dirhist_7='/home/soshi/project/sangria-akka-http-example/src/main/resources/assets'
+let g:netrw_dirhist_6='/home/soshi/project/sangria-akka-http-example/src/main/resources'
+let g:netrw_dirhist_5='/home/soshi/project/sangria-akka-http-example/src/main'
+let g:netrw_dirhist_4='/home/soshi/project/sangria-akka-http-example/src'

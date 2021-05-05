@@ -7,8 +7,8 @@ set expandtab
 set encoding=utf-8
 set fileencoding=utf-8
 set fileencodings=iso-2022-jp,euc-jp,utf-8,ucs-2,cp932,sjis
-set tabstop=2
-set shiftwidth=2
+set tabstop=4
+set shiftwidth=4
 set cursorline
 set number
 set showmode
@@ -21,20 +21,16 @@ set hidden
 set nobackup
 set nowritebackup
 set conceallevel=0
-
-" 背景透過
-highlight Normal ctermbg=none
-highlight NonText ctermbg=none
-highlight LineNr ctermbg=none
-highlight Folded ctermbg=none
-highlight EndOfBuffer ctermbg=none
+set clipboard+=unnamed
+set list
+set listchars=tab:»-,trail:-,eol:↲,extends:»,precedes:«,nbsp:%
 " htmlのマッチするタグに%でジャンプ
-
-set completeopt=menuone,noinsert
-inoremap <expr> <C-n> pumvisible() ? "<Down>" : "<C-n>"
-inoremap <expr> <C-p> pumvisible() ? "<Up>" : "<C-p>"
+source $VIMRUNTIME/macros/matchit.vim
 
 let g:preview_markdown_vertical=1
+
+autocmd BufNewFile,BufRead *.tsx let b:tsx_ext_found = 1
+autocmd BufNewFile,BufRead *.tsx set filetype=typescript.tsx
 
 noremap w k
 noremap a h
@@ -43,16 +39,14 @@ noremap d l
 
 noremap q a
 noremap ee dd
-noremap <C-w> w
-noremap <C-s> b
+noremap <C-s> w
+noremap <C-w> b
 
 inoremap ff <Esc>
 vnoremap ff <Esc>
 
-vnoremap <C-w> <C-p> 
-inoremap <C-s> <C-n>
-
 hi Comment ctermfg=gray
+
 
 if has('mouse')
   set mouse=a
