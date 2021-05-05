@@ -21,8 +21,18 @@ set hidden
 set nobackup
 set nowritebackup
 set conceallevel=0
+
+" 背景透過
+highlight Normal ctermbg=none
+highlight NonText ctermbg=none
+highlight LineNr ctermbg=none
+highlight Folded ctermbg=none
+highlight EndOfBuffer ctermbg=none
 " htmlのマッチするタグに%でジャンプ
-source $VIMRUNTIME/macros/matchit.vim
+
+set completeopt=menuone,noinsert
+inoremap <expr> <C-n> pumvisible() ? "<Down>" : "<C-n>"
+inoremap <expr> <C-p> pumvisible() ? "<Up>" : "<C-p>"
 
 let g:preview_markdown_vertical=1
 
@@ -33,11 +43,14 @@ noremap d l
 
 noremap q a
 noremap ee dd
-noremap <C-w><C-w> w
-noremap <C-s><C-s> b
+noremap <C-w> w
+noremap <C-s> b
 
 inoremap ff <Esc>
 vnoremap ff <Esc>
+
+vnoremap <C-w> <C-p> 
+inoremap <C-s> <C-n>
 
 hi Comment ctermfg=gray
 
