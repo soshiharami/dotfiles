@@ -14,9 +14,7 @@
   "languageserver": {
     "haskell": {
       "command": "haskell-language-server-wrapper",
-      "args": [
-        "--lsp"
-      ],
+      "args": ["--lsp"],
       "rootPatterns": [
         ".stack.yaml",
         ".hie-bios",
@@ -24,21 +22,17 @@
         "cabal.config",
         "package.yaml"
       ],
-      "filetypes": [
-        "hs",
-        "lhs",
-        "haskell"
-      ]
+      "filetypes": ["hs", "lhs", "haskell"]
     },
     "ccls": {
       "command": "ccls",
       "filetypes": ["c", "cpp", "cuda", "objc", "objcpp"],
       "rootPatterns": [".ccls-root", "compile_commands.json"],
       "initializationOptions": {
-         "cache": {
-           "directory": "/tmp/ccls-cache"
-         }
-       }
+        "cache": {
+          "directory": "/tmp/ccls-cache"
+        }
+      }
     }
   }
 }

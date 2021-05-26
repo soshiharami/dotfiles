@@ -45,6 +45,11 @@ noremap <C-w> b
 inoremap ff <Esc>
 vnoremap ff <Esc>
 
+
+nmap <silent> <space>fm <Plug>(coc-format)
+noremap <silent> <space>rn <Plug>(coc-rename)
+nmap <silent> <space>df <Plug>(coc-definition)
+
 hi Comment ctermfg=gray
 
 
