@@ -3,13 +3,15 @@
   "coc.preferences.formatOnSaveFiletypes": [
     "java",
     "scala",
+    "sbt",
     "javascript",
     "typescript",
     "typescriptreact",
     "json",
     "javascriptreact",
     "typescript.tsx",
-    "graphql"
+    "graphql",
+    "c"
   ],
   "languageserver": {
     "haskell": {
@@ -24,6 +26,7 @@
       ],
       "filetypes": ["hs", "lhs", "haskell"]
     },
+
     "ccls": {
       "command": "ccls",
       "filetypes": ["c", "cpp", "cuda", "objc", "objcpp"],

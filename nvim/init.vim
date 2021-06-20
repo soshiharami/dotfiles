@@ -50,8 +50,9 @@ nmap <silent> <space>fm <Plug>(coc-format)
 noremap <silent> <space>rn <Plug>(coc-rename)
 nmap <silent> <space>df <Plug>(coc-definition)
 
-hi Comment ctermfg=gray
+nnoremap <silent> <space>ee :<C-u>Defx<CR>
 
+hi Comment ctermfg=gray
 
 if has('mouse')
   set mouse=a
