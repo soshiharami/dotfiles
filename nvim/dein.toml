@@ -14,6 +14,9 @@ hook_add = '''
 '''
 
 [[plugins]]
+repo = 'vim-airline/vim-airline'
+
+[[plugins]]
 repo = 'Shougo/defx.nvim'
 depends = ['defx-git', 'defx-icons']
 hook_add = '''
@@ -123,6 +126,9 @@ hook_add = '''
 
 [[plugins]]
 repo = 'w0rp/ale'
+
+[[plugins]]
+repo = 'alvan/vim-closetag'
 
 [[plugins]]
 repo = 'airblade/vim-gitgutter'
