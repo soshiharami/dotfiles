@@ -37,6 +37,12 @@ noremap a h
 noremap s j
 noremap d l
 
+noremap OW <C-w>k
+noremap OA <C-w>h
+noremap OS <C-w>j
+noremap OD <C-w>l
+
+
 noremap q a
 noremap ee dd
 noremap <C-s> w
@@ -45,12 +51,10 @@ noremap <C-w> b
 inoremap ff <Esc>
 vnoremap ff <Esc>
 
-
 nmap <silent> <space>fm <Plug>(coc-format)
 noremap <silent> <space>rn <Plug>(coc-rename)
 nmap <silent> <space>df <Plug>(coc-definition)
 
-nnoremap <silent> <space>ee :<C-u>Defx<CR>
 
 hi Comment ctermfg=gray
 
@@ -74,3 +78,19 @@ if dein#check_install()
 endif
 filetype plugin indent on
 syntax enable
+
+
+" defx
+call defx#custom#option('_', {
+      \ 'winwidth': 40,
+      \ 'split': 'vertical',
+      \ 'direction': 'topleft',
+      \ 'show_ignored_files': 1,
+      \ 'buffer_name': 'exlorer',
+      \ 'toggle': 1,
+      \ 'resume': 1,
+      \ })
+autocmd VimEnter * execute 'Defx'
+nnoremap <silent> <space>ee :<C-u>Defx<CR>
+
+
