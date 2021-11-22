@@ -1,5 +1,6 @@
 {
   "suggest.noselect": false,
+  "elixir.pathToElixirLS": "/usr/bin/elixir-ls/",
   "coc.preferences.formatOnSaveFiletypes": [
     "java",
     "scala",
@@ -14,6 +15,10 @@
     "c"
   ],
   "languageserver": {
+    "elixir": {
+      "command": "elixir-ls",
+      "filetypes": ["exs"]
+    },
     "haskell": {
       "command": "haskell-language-server-wrapper",
       "args": ["--lsp"],

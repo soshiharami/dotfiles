@@ -2,15 +2,21 @@
 repo = 'Shougo/dein.vim'
 
 [[plugins]]
+repo = 'neovim/nvim-lspconfig'
+
+[[plugins]]
+repo = 'williamboman/nvim-lsp-installer'
+
+[[plugins]]
 repo = 'tpope/vim-endwise'
 
 [[plugins]]
 repo = 'Townk/vim-autoclose'
 
 [[plugins]]
-repo = 'joshdick/onedark.vim'
+repo = 'projekt0n/github-nvim-theme'
 hook_add = '''
-  colorscheme onedark
+  colorscheme github_dark_default
 '''
 
 [[plugins]]
@@ -20,6 +26,20 @@ repo = 'vim-airline/vim-airline'
 repo = 'Shougo/defx.nvim'
 depends = ['defx-git', 'defx-icons']
 hook_add = '''
+
+autocmd VimEnter * execute 'Defx'
+nnoremap <silent> <space>ee :<C-u>Defx<CR>
+
+call defx#custom#option('_', {
+      \ 'winwidth': 40,
+      \ 'split': 'vertical',
+      \ 'direction': 'topleft',
+      \ 'show_ignored_files': 1,
+      \ 'buffer_name': 'exlorer',
+      \ 'toggle': 1,
+      \ 'resume': 1,
+      \ })
+
 call defx#custom#column('icon', {
       \ 'directory_icon': '▸',
       \ 'opened_icon': '▾',
@@ -101,55 +121,6 @@ hook_add = '''
   command Gbl :Gblame
 '''
 
-
-[[plugins]]
-repo = 'osyo-manga/vim-anzu'
-hook_add = '''
-  nmap n <Plug>(anzu-n-with-echo)
-  nmap N <Plug>(anzu-N-with-echo)
-  nmap * <Plug>(anzu-star)
-  nmap # <Plug>(anzu-sharp)
-'''[[plugins]]
-repo = 'Shougo/dein.vim'
-
-[[plugins]]
-repo = 'tpope/vim-endwise'
-
-[[plugins]]
-repo = 'Townk/vim-autoclose'
-
-[[plugins]]
-repo = 'joshdick/onedark.vim'
-hook_add = '''
-  colorscheme onedark
-'''
-
-[[plugins]]
-repo = 'w0rp/ale'
-
-[[plugins]]
-repo = 'alvan/vim-closetag'
-
-[[plugins]]
-repo = 'airblade/vim-gitgutter'
-hook_add = '''
-  set signcolumn=yes
-  set updatetime=1000
-  nnoremap [gitgutter] <Nop>
-  nmap <C-h> [gitgutter]
-  nmap [gitgutter]j <Plug>GitGutterNextHunk
-  nmap [gitgutter]k <Plug>GitGutterPrevHunk
-  nmap [gitgutter]u <Plug>GitGutterUndoHunk
-'''
-
-[[plugins]]
-repo = 'tpope/vim-fugitive'
-hook_add = '''
-  command Gst :Gstatus
-  command Gdf :Gdiff
-  command Gbl :Gblame
-'''
-
 [[plugins]]
 repo = 'Shougo/denite.nvim'
 hook_add = '''
@@ -179,28 +150,6 @@ hook_add = '''
   nmap N <Plug>(anzu-N-with-echo)
   nmap * <Plug>(anzu-star)
   nmap # <Plug>(anzu-sharp)
-'''
-[[plugins]]
-repo = 'neoclide/coc.nvim'
-rev = 'release'
-build = '''
-  git checkout release
-'''
-hook_add = '''
-  inoremap <silent><expr> <TAB>
-        \ pumvisible() ? "\<C-n>" :
-        \ <SID>check_back_space() ? "\<TAB>" :
-        \ coc#refresh()
-  inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-  inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-  function! s:check_back_space() abort
-    let col = col('.') - 1
-    return !col || getline('.')[col - 1]  =~# '\s'
-  endfunction
-  nmap <silent> gd <Plug>(coc-definition)
-  nmap <silent> gy <Plug>(coc-type-definition)
-  nmap <silent> gi <Plug>(coc-implementation)
-  nmap <silent> gr <Plug>(coc-references)
 '''
 
 [[plugins]]
