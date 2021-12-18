@@ -82,12 +82,18 @@ require'packer'.startup(function()
   }
 
   use "neovim/nvim-lspconfig"
+  use { "jose-elias-alvarez/null-ls.nvim", requires = { "nvim-lua/plenary.nvim" } }
   use "williamboman/nvim-lsp-installer"
   use "hrsh7th/nvim-cmp"
   use "hrsh7th/cmp-nvim-lsp"
   use "hrsh7th/cmp-vsnip"
   use "hrsh7th/cmp-buffer"
   use "hrsh7th/vim-vsnip"
+  use{'scalameta/nvim-metals', requires = { "nvim-lua/plenary.nvim" }}
+  vim.cmd [[augroup lsp]]
+  vim.cmd [[au!]]
+  vim.cmd [[au FileType scala,sbt lua require("metals").initialize_or_attach({})]]
+  vim.cmd [[augroup end]]
 
   if packer_bootstrap then
     require("packer").sync()
@@ -156,7 +162,6 @@ cmp.setup({
   })
 })
 
-use { "jose-elias-alvarez/null-ls.nvim", requires = { "nvim-lua/plenary.nvim" } }
 local nullls = require "null-ls"
 nullls.config {
   sources = {
