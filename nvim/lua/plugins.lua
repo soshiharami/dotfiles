@@ -72,6 +72,8 @@ require'packer'.startup(function()
     -- conf = function() return vim.fn.has'gui' == 1 end,
   }
 
+  use { "ellisonleao/gruvbox.nvim" }
+
   -- 依存関係も管理できます。vim-prettyprint は
   -- capture.vim が読み込まれる前に、自動的に packadd されます。
   use{

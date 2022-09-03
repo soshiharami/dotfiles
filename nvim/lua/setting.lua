@@ -18,3 +18,6 @@ vim.api.nvim_command('set nowritebackup')
 vim.api.nvim_command('set conceallevel=0')
 vim.api.nvim_command('set clipboard+=unnamedplus')
 vim.api.nvim_command('set list')
+
+vim.opt.background = "dark" 
+vim.cmd([[colorscheme gruvbox]])
