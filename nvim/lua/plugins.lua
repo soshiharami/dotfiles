@@ -4,6 +4,7 @@ require'packer'.startup(function()
   -- 起動時に読み込むプラグインは名前を書くだけです
   use'tpope/vim-fugitive'
   use'tpope/vim-repeat'
+   use "lukas-reineke/lsp-format.nvim"
 
   -- theme
   use "projekt0n/github-nvim-theme"
@@ -71,6 +72,8 @@ require'packer'.startup(function()
     -- conf = function() return vim.fn.has'gui' == 1 end,
   }
 
+  use { "ellisonleao/gruvbox.nvim" }
+
   -- 依存関係も管理できます。vim-prettyprint は
   -- capture.vim が読み込まれる前に、自動的に packadd されます。
   use{
@@ -89,6 +92,7 @@ require'packer'.startup(function()
   use "hrsh7th/cmp-vsnip"
   use "hrsh7th/cmp-buffer"
   use "hrsh7th/vim-vsnip"
+  use 'voldikss/vim-floaterm'
   use{'scalameta/nvim-metals', requires = { "nvim-lua/plenary.nvim" }}
   vim.cmd [[augroup lsp]]
   vim.cmd [[au!]]
@@ -117,8 +121,8 @@ local on_attach = function(client, bufnr)
   buf_set_keymap("n", "<space>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>", opts)
   buf_set_keymap("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
   buf_set_keymap("n", "<space>e", "<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>", opts)
-  buf_set_keymap("n", "[d", "<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>", opts)
-  buf_set_keymap("n", "]d", "<cmd>lua vim.lsp.diagnostic.goto_next()<CR>", opts)
+  buf_set_keymap("n", "<C-p>", "<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>", opts)
+  buf_set_keymap("n", "<C-n>", "<cmd>lua vim.lsp.diagnostic.goto_next()<CR>", opts)
   buf_set_keymap("n", "<space>q", "<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>", opts)
   buf_set_keymap("n", "fn", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
 
@@ -148,6 +152,8 @@ cmp.setup({
     end,
   },
   mapping = {
+    ['<C-p>'] = cmp.mapping.select_prev_item(),
+    ['<C-n>'] = cmp.mapping.select_next_item(),
     ["<C-d>"] = cmp.mapping.scroll_docs(-4),
     ["<C-f>"] = cmp.mapping.scroll_docs(4),
     ["<C-Space>"] = cmp.mapping.complete(),
@@ -162,17 +168,37 @@ cmp.setup({
   })
 })
 
-local nullls = require "null-ls"
-nullls.config {
+local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
+local null_ls = require "null-ls"
+null_ls.setup {
+     -- you can reuse a shared lspconfig on_attach callback here
+    on_attach = function(client, bufnr)
+        if client.supports_method("textDocument/formatting") then
+            vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
+            vim.api.nvim_create_autocmd("BufWritePre", {
+                group = augroup,
+                buffer = bufnr,
+                callback = function()
+                    -- on 0.8, you should use vim.lsp.buf.format({ bufnr = bufnr }) instead
+                    vim.lsp.buf.formatting_sync()
+                end,
+            })
+        end
+    end,
   sources = {
-    nullls.builtins.formatting.prettier,
+    null_ls.builtins.formatting.prettier.with {
+      prefer_local = "node_modules/.bin",
+    },
   },
 }
-require("lspconfig")["null-ls"].setup {}
 
 end)
 end)
 
+require("lsp-format").setup {}
+require "lspconfig".gopls.setup {
+    on_attach = require "lsp-format".on_attach
+}
 
 --theme
 require('github-theme').setup({
