@@ -4,18 +4,26 @@ require'packer'.startup(function()
   -- 起動時に読み込むプラグインは名前を書くだけです
   use'tpope/vim-fugitive'
   use'tpope/vim-repeat'
-   use "lukas-reineke/lsp-format.nvim"
+  use "lukas-reineke/lsp-format.nvim"
+  use "williamboman/mason.nvim" 
+  use "williamboman/mason-lspconfig.nvim"
 
   -- theme
   use "projekt0n/github-nvim-theme"
 
   -- tree
   use {
-    'kyazdani42/nvim-tree.lua',
-    requires = 'kyazdani42/nvim-web-devicons',
-    config = function() require'nvim-tree'.setup {}
-    end
+    'nvim-tree/nvim-tree.lua',
+    requires = 'nvim-tree/nvim-web-devicons',
   }
+
+use({
+    "iamcco/markdown-preview.nvim",
+    run = function() vim.fn["mkdp#util#install"]() end,
+})
+
+use({ "iamcco/markdown-preview.nvim", run = "cd app && npm install", setup = function() vim.g.mkdp_filetypes = { "markdown" } end, ft = { "markdown" }, })
+
 
   -- opt オプションを付けると遅延読み込みになります。
   -- この場合は opt だけで読み込む契機を指定していないため、
@@ -86,11 +94,11 @@ require'packer'.startup(function()
 
   use "neovim/nvim-lspconfig"
   use { "jose-elias-alvarez/null-ls.nvim", requires = { "nvim-lua/plenary.nvim" } }
-  use "williamboman/nvim-lsp-installer"
   use "hrsh7th/nvim-cmp"
   use "hrsh7th/cmp-nvim-lsp"
   use "hrsh7th/cmp-vsnip"
   use "hrsh7th/cmp-buffer"
+  use "wuelnerdotexe/vim-astro"
   use "hrsh7th/vim-vsnip"
   use 'voldikss/vim-floaterm'
   use{'scalameta/nvim-metals', requires = { "nvim-lua/plenary.nvim" }}
@@ -98,6 +106,9 @@ require'packer'.startup(function()
   vim.cmd [[au!]]
   vim.cmd [[au FileType scala,sbt lua require("metals").initialize_or_attach({})]]
   vim.cmd [[augroup end]]
+
+
+ require("lsp-format").setup {}
 
   if packer_bootstrap then
     require("packer").sync()
@@ -127,19 +138,29 @@ local on_attach = function(client, bufnr)
   buf_set_keymap("n", "fn", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
 
 
-    if client.resolved_capabilities.document_formatting then
-        vim.cmd("autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()")
-    end
-
 end
 
-local lsp_installer = require("nvim-lsp-installer")
-lsp_installer.on_server_ready(function(server)
+local mason = require('mason')
+ mason.setup({
+   ui = {
+     icons = {
+       package_installed = "✓",
+       package_pending = "➜",
+       package_uninstalled = "✗"
+     }
+   }
+ })
+
+local nvim_lsp = require('lspconfig')
+local mason_lspconfig = require('mason-lspconfig')
+mason_lspconfig.setup_handlers({ function(server)
     local opts = {}
     opts.on_attach = on_attach
-    opts.capabilities = require("cmp_nvim_lsp").update_capabilities(vim.lsp.protocol.make_client_capabilities())
+    opts.capabilities = require('cmp_nvim_lsp').default_capabilities()
 
-    server:setup(opts)
+    nvim_lsp[server].setup(opts)
+    
+
     vim.cmd [[ do User LspAttachBuffers ]]
 
 vim.opt.completeopt = "menu,menuone,noselect"
@@ -185,20 +206,15 @@ null_ls.setup {
             })
         end
     end,
-  sources = {
-    null_ls.builtins.formatting.prettier.with {
-      prefer_local = "node_modules/.bin",
-    },
-  },
 }
-
-end)
+end})
 end)
 
 require("lsp-format").setup {}
 require "lspconfig".gopls.setup {
     on_attach = require "lsp-format".on_attach
 }
+require 'lspconfig'.astro.setup{}
 
 --theme
 require('github-theme').setup({
@@ -209,3 +225,4 @@ require('github-theme').setup({
   -- Change the "hint" color to the "orange" color, and make the "error" color bright red
   colors = {hint = "orange", error = "#ff0000"}
 })
+
