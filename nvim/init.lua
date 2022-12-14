@@ -1,4 +1,4 @@
-require'plugins'
-require'keybind'
 require'tree'
+require'keybind'
+require'plugins'
 require'setting'
