@@ -151,8 +151,19 @@ local mason = require('mason')
    }
  })
 
+
+require('lspconfig')['eslint'].setup{
+    on_attach = on_attach,
+    -- Server-specific settings...
+    settings = {
+      ["autoFixOnSave"] = true
+    }
+}
+
 local nvim_lsp = require('lspconfig')
 local mason_lspconfig = require('mason-lspconfig')
+
+
 mason_lspconfig.setup_handlers({ function(server)
     local opts = {}
     opts.on_attach = on_attach
