@@ -35,6 +35,7 @@ local list = {
 
 require'nvim-tree'.setup ({
   open_on_setup       = true,
+  remove_keymaps = true,
   view = {
 	  mappings = {
 		  custom_only = true,

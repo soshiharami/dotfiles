@@ -18,4 +18,4 @@ vim.api.nvim_set_keymap("n", "<C-w>", "b", { noremap = true })
 vim.api.nvim_set_keymap("", "x", "x", { noremap = true })
 
 
-vim.api.nvim_set_keymap("", "gi", ":FloatermNew lazygit<CR>", { noremap = true })
+vim.api.nvim_set_keymap("", "lg", ":FloatermNew lazygit<CR>", { noremap = true })

@@ -8,9 +8,11 @@
 
 
 #-- Completion --#
-[ -e /usr/local/share/zsh-completions ] && fpath=(/usr/local/share/zsh-completions $fpath)
+[ -e $HOME/.oh-my-zsh/custom/plugins/zsh-completions ] && fpath=($HOME/.oh-my-zsh/custom/plugins/zsh-completions $fpath)
 autoload -U compinit
 compinit -u
+setopt correct
+
 
 
 #-- Archive settings --#
@@ -80,42 +82,38 @@ colors
 
 #-- Pass to the path --#
 [[ -d ~/.bin ]] && export PATH="~/.bin:${PATH}"
-
+export PATH=~/.npm-global/bin:$PATH
 
 #-- PROMPT --#
-# if [[ ${TERM} = "linux" ]]; then
-#     PROMPT='%B%F{red}%(?..%? )%f%b%B%F{red}%n%f%b@%m %B%40<..<%~%<< %b%# '
-# else
-#     function powerline_precmd() {
-#         PS1="$(powerline-shell  )"
-#     }
-# 
-#     function install_powerline_precmd() {
-#         for s in "${precmd_functions[@]}"; do
-#             if [ "$s" = "powerline_precmd" ]; then
-#                 return
-#             fi
-#         done
-#         precmd_functions+=(powerline_precmd)
-#     }
-# 
-#     install_powerline_precmd
-# fi
-#
+ function powerline_precmd() {
+    PS1="$(powerline-shell --shell zsh $?)"
+}
+
+function install_powerline_precmd() {
+  for s in "${precmd_functions[@]}"; do
+    if [ "$s" = "powerline_precmd" ]; then
+      return
+    fi
+  done
+  precmd_functions+=(powerline_precmd)
+}
+
+if [ "$TERM" != "linux" -a -x "$(command -v powerline-shell)" ]; then
+    install_powerline_precmd
+fi 
 
 plugins=(git)
 export ZSH="$HOME/.oh-my-zsh"
 ZSH_THEME="gruvbox"
 SOLARIZED_THEME="dark"
-source $ZSH/oh-my-zsh.sh
+# source $ZSH/oh-my-zsh.sh
 
 # load zgen
-source "${HOME}/.zgen/zgen.zsh"
+#source "${HOME}/.zgen/zgen.zsh"
 
 #-- Like fish prompt --#
-source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
-source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-alias ls="ls -ltr --color=auto"
+source $HOME/.oh-my-zsh/custom/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+source $HOME/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 alias oppai=ls
 alias oppai='ls'
 alias packman=pacman
@@ -124,16 +122,27 @@ alias cl=clear
 alias :wq=exit
 alias n=nvim
 alias bat='bat --style="numbers,grid"'
+alias g='lazygit'
 
 [[ -z "$TMUX" && ! -z "$PS1" ]] && tmux -u
 
-chpwd() { ls -ltr --color=auto }
 export VOLTA_HOME="$HOME/.volta"
 export PATH="$VOLTA_HOME/bin:$PATH"
-export PATH="/home/soshi/.local/share/gem/ruby/3.0.0/bin:$PATH"
+export PATH="$HOME/go/bin:$PATH"
 
-export LANG=ja_JP.utf8;
 
 eval $(thefuck --alias)
 
-alias g=lazygit
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+source /Users/soushi/.docker/init-zsh.sh || true # Added by Docker Desktop
+
+# pnpm
+export PNPM_HOME="/Users/soushi/Library/pnpm"
+export PATH="$PNPM_HOME:$PATH"
+# pnpm end
+#
+export COURSIER="~/Library/Application\ Support/Coursier/bin"
+export PATH="$COURSIER:$PATH"

@@ -17,12 +17,13 @@ require'packer'.startup(function()
     requires = 'nvim-tree/nvim-web-devicons',
   }
 
-use({
-    "iamcco/markdown-preview.nvim",
-    run = function() vim.fn["mkdp#util#install"]() end,
-})
-
 use({ "iamcco/markdown-preview.nvim", run = "cd app && npm install", setup = function() vim.g.mkdp_filetypes = { "markdown" } end, ft = { "markdown" }, })
+
+use {
+    "williamboman/mason.nvim",
+    "jose-elias-alvarez/null-ls.nvim",
+    "jay-babu/mason-null-ls.nvim",
+}
 
 
   -- opt オプションを付けると遅延読み込みになります。
@@ -52,6 +53,12 @@ use({ "iamcco/markdown-preview.nvim", run = "cd app && npm install", setup = fun
     opt = true,
     keys = {'<CR>'},
   }
+
+    use {
+    'nvim-telescope/telescope.nvim', tag = '0.1.1',
+     requires = { {'nvim-lua/plenary.nvim'} }
+    }
+
 
   -- 特定の VimL 関数を呼ぶと読み込む
   -- この例だと、任意の場所で Artify('hoge', 'bold') のように呼び出された時に、
@@ -108,7 +115,6 @@ use({ "iamcco/markdown-preview.nvim", run = "cd app && npm install", setup = fun
   vim.cmd [[augroup end]]
 
 
- require("lsp-format").setup {}
 
   if packer_bootstrap then
     require("packer").sync()
@@ -201,9 +207,18 @@ cmp.setup({
 })
 
 local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
-local null_ls = require "null-ls"
-null_ls.setup {
-     -- you can reuse a shared lspconfig on_attach callback here
+end})
+end)
+
+require("mason-null-ls").setup({
+    ensure_installed = {
+        -- Opt to list sources here, when available in mason.
+    },
+    automatic_installation = false,
+    automatic_setup = true, -- Recommended, but optional
+})
+require("null-ls").setup({
+    -- you can reuse a shared lspconfig on_attach callback here
     on_attach = function(client, bufnr)
         if client.supports_method("textDocument/formatting") then
             vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
@@ -211,15 +226,19 @@ null_ls.setup {
                 group = augroup,
                 buffer = bufnr,
                 callback = function()
-                    -- on 0.8, you should use vim.lsp.buf.format({ bufnr = bufnr }) instead
-                    vim.lsp.buf.formatting_sync()
+vim.lsp.buf.format({
+        bufnr = bufnr,
+        filter = function(client)
+            return client.name == "null-ls"
+        end
+    })
                 end,
             })
         end
     end,
-}
-end})
-end)
+})
+
+require 'mason-null-ls'.setup_handlers() -- If `automatic_setup` is true.
 
 require("lsp-format").setup {}
 require "lspconfig".gopls.setup {
