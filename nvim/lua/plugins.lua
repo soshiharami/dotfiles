@@ -238,21 +238,9 @@ vim.lsp.buf.format({
     end,
 })
 
-require 'mason-null-ls'.setup_handlers() -- If `automatic_setup` is true.
-
 require("lsp-format").setup {}
 require "lspconfig".gopls.setup {
     on_attach = require "lsp-format".on_attach
 }
 require 'lspconfig'.astro.setup{}
-
---theme
-require('github-theme').setup({
-  theme_style = "dark",
-  function_style = "italic",
-  sidebars = {"qf", "vista_kind", "terminal", "packer"},
-
-  -- Change the "hint" color to the "orange" color, and make the "error" color bright red
-  colors = {hint = "orange", error = "#ff0000"}
-})
 
